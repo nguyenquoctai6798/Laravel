@@ -22,11 +22,18 @@ class Products extends Model
     }
 
     public static function editProduct($request ,$id, $fileName){
+        
         $product = new Products;
         $product->Name = $request->Name;
         $product->Price = $request->Price;
         $product->Description = $request->Description;
-        $product::where('Id', (int)$id)->Update(['Name'=>$product->Name, 'Price'=>$product->Price,'Img'=>$fileName, 'Description'=>$product->Description]);
+        if($fileName != null){
+            $product::where('Id', (int)$id)->Update(['Name'=>$product->Name, 'Price'=>$product->Price,'Img'=>$fileName, 'Description'=>$product->Description]);
+        }
+        else{
+            $product::where('Id', (int)$id)->Update(['Name'=>$product->Name, 'Price'=>$product->Price, 'Description'=>$product->Description]);
+        }
+       
     }
 
     public static function creteProductPost($request, $fileName){
