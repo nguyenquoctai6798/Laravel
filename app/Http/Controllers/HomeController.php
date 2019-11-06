@@ -58,9 +58,11 @@
                 // dd($file);
                 $fileName = pathinfo($_FILES['myfile']['name'], PATHINFO_BASENAME);
                 $file->move('public/Images',$fileName);
-                products::editProduct($request, $id, $fileName);
-                 return redirect('/')->with('success', 'Thay đối sản phẩm thành công');
+               
             }
+            products::editProduct($request, $id, $fileName);
+               
+            return redirect('/')->with('success', 'Thay đối sản phẩm thành công');
             
         }
 
@@ -104,9 +106,5 @@
                     products::creteProductPost($request, $fileName);
                     return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
                 }
-            
             }
-            
-           
-        
     }
