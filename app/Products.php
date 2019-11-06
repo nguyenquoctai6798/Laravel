@@ -21,16 +21,16 @@ class Products extends Model
         return $product;
     }
 
-    public static function editProduct($request ,$id){
+    public static function editProduct($request ,$id, $fileName){
         $product = new Products;
         $product->Name = $request->Name;
         $product->Price = $request->Price;
         $product->Description = $request->Description;
-        $product::where('Id', (int)$id)->Update(['Name'=>$product->Name, 'Price'=>$product->Price, 'Description'=>$product->Description]);
+        $product::where('Id', (int)$id)->Update(['Name'=>$product->Name, 'Price'=>$product->Price,'Img'=>$fileName, 'Description'=>$product->Description]);
     }
 
-    public static function creteProductPost($request){
+    public static function creteProductPost($request, $fileName){
         $product = new Products;
-        $product->insert(['Name'=>$request->Name, 'Price'=>$request->Price, 'Img'=>'gia-xe-hyundai-sonata.jpg', 'Description'=>$request->Description]);
+        $product->insert(['Name'=>$request->Name, 'Price'=>$request->Price, 'Img'=>$fileName, 'Description'=>$request->Description]);
     }
 }

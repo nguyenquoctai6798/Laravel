@@ -53,8 +53,15 @@
                 $request->session()->flash('errors', $validator->errors());
                 return redirect()->back();
             }
-            products::editProduct($request, $id);
-            return redirect('/')->with('success', 'Thay đối sản phẩm thành công');
+            if($request->hasFile('myfile')){
+                $file = $request->file('myfile');
+                // dd($file);
+                $fileName = pathinfo($_FILES['myfile']['name'], PATHINFO_BASENAME);
+                $file->move('public/Images',$fileName);
+                products::editProduct($request, $id, $fileName);
+                 return redirect('/')->with('success', 'Thay đối sản phẩm thành công');
+            }
+            
         }
 
         public function showProductDetail($id){
@@ -82,14 +89,22 @@
                     'Name' => 'required|min:6',
                     'Price' => 'required|numeric',
                     'Description' => 'required|min:10',
+                    'myfile' => 'required|max:10000'
                 ]);
                 if($validator->fails()){
                     $request->session()->flash('errors', $validator->errors());
                     $input = $request;
                     return redirect()->back();
                 }
-                products::creteProductPost($request);
-                return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
+                if($request->hasFile('myfile')){
+                    $file = $request->file('myfile');
+                    // dd($file);
+                    $fileName = pathinfo($_FILES['myfile']['name'], PATHINFO_BASENAME);
+                    $file->move('public/Images',$fileName);
+                    products::creteProductPost($request, $fileName);
+                    return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
+                }
+            
             }
             
            

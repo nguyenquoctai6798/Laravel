@@ -13,7 +13,7 @@
 
 <body>
     <div class="container">
-        <h1>Create Product</h1>
+        <h1>Edit Product</h1>
         <?php if(Session::has('errors')){
             $errors =  Session::get('errors');
             foreach ($errors->all() as $key => $error) {
@@ -23,25 +23,28 @@
             <br/>
         </div>
         <?php }} ?>
-        <form action="/test/server.php/CreateProduct" method='POST' enctype="multipart/form-data">
-            @csrf
+        <form action="/test/server.php/EditProduct/<?php echo $product[0]->Id ?>" method='post' enctype="multipart/form-data">
+        @csrf
             Tên xe: <div class="form-group">
                 <input type="text" class="form-control" name="Name" id="" aria-describedby="helpId"
-                   placehoder = 'Nhập tên' ?>
+                    value="<?php echo $product[0]->Name ?>" ?>
             </div>
             Giá tiền:<div class="form-group">
                 <input type="text" class="form-control" name="Price" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập giá' ?>
+                    value="<?php echo $product[0]->Price ?> " ?>
             </div>
             Img: <input type = 'file' name = 'myfile'>
             <br/><br/>
             Mô tả:<div class="form-group">
                 <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập mô tả' ?>
+                    placehoder = 'Nhập mô tả'  value = "<?php echo $product[0]->Description ?>" ?>
             </div>
+
             <button type='submit' class='btn btn-success'>Submit</button>
         </form>
+        
     </div>
+
 </body>
 
 </html>
