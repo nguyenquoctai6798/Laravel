@@ -50,29 +50,7 @@ class UserController extends Controller
                     return redirect()->back();
                 }
             }
-           
 
-            // dd(Auth::attempt($data));
-            // if(Auth::attempt($data)){
-            //     echo 'login success';
-            // }
-            // else{
-            //     echo 'login fail';
-            // }
-            // $account = User::checkAccount();
-            // if($account === null){
-            //     $request->session()->flash('error', 'Tài khoản hoặc mật khẩu không chính xác');
-            //     return redirect()->back();
-            // }
-            // else{
-            //     if(Hash::check($request->Password, $account->Password)){
-            //         return redirect('/')->with('success', 'Đăng nhập thành công');
-            //     }
-            //     else{
-            //         $request->session()->flash('error', 'Tài khoản hoặc mật khẩu không chính xác');
-            //         return redirect()->back();
-            //     }
-            // }
         }
     }
 
