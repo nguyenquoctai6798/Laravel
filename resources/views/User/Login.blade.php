@@ -41,7 +41,7 @@
             <h1>Đăng nhập</h1>
             <form action="/test/server.php/Login" method='post'>
                 @csrf
-                Tài khoản: <input type="text" class="form-control" name="email" id=""  aria-describedby="helpId"  ?>
+                Tài khoản: <input type="text" class="form-control" name="email" id=""  aria-describedby="helpId" value="{{ old('email') }}"  ?>
                 Mật khẩu: <input type="password" class="form-control" name="password" id="" aria-describedby="helpId" ?>
                 <br />
                 <button class='btn btn-success' type='submit'>Đăng nhập</button>

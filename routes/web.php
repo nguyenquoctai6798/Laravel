@@ -33,3 +33,5 @@ Route::get('/SignUp', 'UserController@signUp');
 Route::post('/SignUp', 'UserController@signUpPost');
 
 Route::get('/Logout', 'UserController@logOut');
+
+Route::get('/Confirm/{token}', 'UserController@conFirm');

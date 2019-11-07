@@ -14,6 +14,15 @@
 <body>
     <div class="container">
         <h1>Edit Product</h1>
+        <?php if(Session::has('error')){
+            $error = Session::get('error');?>
+           <div class="alert alert-danger">
+               <?php echo $error ?>
+               <br />
+           </div>
+           <?php }?>
+
+           
         <?php if(Session::has('errors')){
             $errors =  Session::get('errors');
             foreach ($errors->all() as $key => $error) {

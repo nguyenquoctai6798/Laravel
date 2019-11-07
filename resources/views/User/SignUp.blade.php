@@ -23,10 +23,10 @@
         <?php }} ?>
         <form action="/test/server.php/SignUp/" method='post'>
         @csrf
-            Tên: <input type="text" class="form-control" name="name" id="" aria-describedby="helpId" ?>
-            Tuổi: <input type="text" class="form-control" name="age" id="" aria-describedby="helpId" ?>
-            Email: <input type="text" class="form-control" name="email" id="" aria-describedby="helpId" ?>
-            Password: <input type="password" class="form-control" name="password" id="" aria-describedby="helpId" ?>
+            Tên: <input type="text" class="form-control" name="name" id="" aria-describedby="helpId" value="{{ old('name') }}">
+            Tuổi: <input type="text" class="form-control" name="age" id="" aria-describedby="helpId" value="{{ old('age') }}">
+            Email: <input type="text" class="form-control" name="email" id="" aria-describedby="helpId"value="{{ old('email') }}" >
+            Password: <input type="password" class="form-control" name="password" id="" aria-describedby="helpId" >
             <br />
             <button class='btn btn-success' type='submit'>Đăng ký</button>
         </form>

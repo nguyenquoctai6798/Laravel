@@ -14,6 +14,14 @@
 <body>
     <div class="container">
         <h1>Create Product</h1>
+        <?php if(Session::has('error')){
+            $error = Session::get('error');?>
+           <div class="alert alert-danger">
+               <?php echo $error ?>
+               <br />
+           </div>
+           <?php }?>
+
         <?php if(Session::has('errors')){
             $errors =  Session::get('errors');
             foreach ($errors->all() as $key => $error) {
@@ -27,17 +35,17 @@
             @csrf
             Tên xe: <div class="form-group">
                 <input type="text" class="form-control" name="Name" id="" aria-describedby="helpId"
-                   placehoder = 'Nhập tên' ?>
+                   placehoder = 'Nhập tên' value="{{ old('Name') }}"?>
             </div>
             Giá tiền:<div class="form-group">
                 <input type="text" class="form-control" name="Price" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập giá' ?>
+                    placehoder = 'Nhập giá' value="{{ old('Price') }}" ?>
             </div>
             Img: <input type = 'file' name = 'myfile'>
             <br/><br/>
             Mô tả:<div class="form-group">
                 <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập mô tả' ?>
+                    placehoder = 'Nhập mô tả' value="{{ old('Description') }}"?>
             </div>
             <button type='submit' class='btn btn-success'>Submit</button>
         </form>

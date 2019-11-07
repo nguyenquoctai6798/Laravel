@@ -4,6 +4,7 @@
     use Illuminate\Support\Facades\DB;
     use App\products;
     use Auth;
+    use File;  
     use Illuminate\Support\Facades\Validator;
     // use App\Entities\Models\User;
 
@@ -12,7 +13,7 @@
 
         public function index()
         {
-            if (Auth::check()) {
+            if (Auth::check() && Auth::user()->email_verified_at == 1) {
                 $result = products::getAllProduct();
                 $name = Auth::user()->name;
                 return view('User.HomeView', ['lsProduct' => $result, 'name' => $name]);
@@ -23,7 +24,7 @@
         }
 
         public function deleteProduct($id){
-            if (Auth::check()) {
+            if (Auth::check() && Auth::user()->email_verified_at == 1) {
                 products::deleteProduct($id);
                 return redirect('/')->with('success', 'Xóa sản phẩm thành công');
             }
@@ -33,7 +34,7 @@
         }
 
         public function editProduct($id){
-            if (Auth::check()) {
+            if (Auth::check() && Auth::user()->email_verified_at == 1) {
                 $product = products::getProductId($id);
                 return view('User.EditProduct', ['product' => $product]);
             }
@@ -54,18 +55,39 @@
                 return redirect()->back();
             }
             $fileName = null;
+            $fileRandom = null;
             if($request->hasFile('myfile')){
                 $file = $request->file('myfile');
-                // dd($file);
-                $fileName = pathinfo($_FILES['myfile']['name'], PATHINFO_BASENAME);
-                $file->move('public/Images',$fileName);
+                $duoi = $file->getClientOriginalExtension();
+                if($duoi != "jpg" && $duoi != "png" && $duoi != "jpeg" && $duoi != "JPG" && $duoi != "PNG" && $duoi != "JPEG" ){
+                    return redirect()->back()->with('error', 'Chỉ được thêm file .jpg/.png/.jpeg')->withInput(
+                        $request->except('')
+                    );
+                }
+                else{
+                    // xóa file product cũ
+                    $product = products::getProductId($id);
+                    $uploadDir = public_path('Images');
+                    if(File::exists($uploadDir. '/' . $product[0]->Img)){
+                        File::delete($uploadDir. '/' . $product[0]->Img);
+                    }
+                    else{
+                        return redirect()->back()->with('error', 'file hình không tìm thấy để xóa');
+                    }
+                    // thêm file product mới
+                    $fileName = $file->getClientOriginalName();
+                    $fileRandom = str_random(8). '_' .$fileName;
+                    $file->move('public/Images',$fileRandom);
+                   
+                }
             }
-            products::editProduct($request, $id, $fileName);
+            products::editProduct($request, $id, $fileRandom);
             return redirect('/')->with('success', 'Thay đối sản phẩm thành công');
         }
 
         public function showProductDetail($id){
-            if (Auth::check()) {
+           
+            if (Auth::check() && Auth::user()->email_verified_at == 1) {
                 $product = products::getProductId($id);
                 return view('User.ShowProductDetail', ['product' => $product]);
             }
@@ -98,11 +120,20 @@
                 }
                 if($request->hasFile('myfile')){
                     $file = $request->file('myfile');
-                    // dd($file);
-                    $fileName = pathinfo($_FILES['myfile']['name'], PATHINFO_BASENAME);
-                    $file->move('public/Images',$fileName);
-                    products::creteProductPost($request, $fileName);
-                    return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
+                    $duoi = $file->getClientOriginalExtension();
+                    if($duoi != "jpg" && $duoi != "png" && $duoi != "jpeg" && $duoi != "JPG" && $duoi != "PNG" && $duoi != "JPEG" ){
+                        return redirect()->back()->with('error', 'Chỉ được thêm file .jpg/.png/.jpeg')->withInput(
+                            $request->except('')
+                        );
+                    }
+                    else{
+                        $fileName = $file->getClientOriginalName();
+                        $fileRandom = str_random(8). '_' .$fileName;
+                        $file->move('public/Images',$fileRandom);
+                        products::creteProductPost($request, $fileRandom);
+                        return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
+                    }
+                  
                 }
             }
     }
