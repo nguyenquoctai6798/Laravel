@@ -45,8 +45,9 @@
             Img: <input type = 'file' name = 'myfile' >
             <br/><br/>
             Mô tả:<div class="form-group">
-                <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập mô tả'  value = "<?php echo $product[0]->Description ?>" ?>
+           
+                    <textarea  type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
+                    placehoder = 'Nhập mô tả'> <?php echo $product[0]->Description ?> </textarea>
             </div>
 
             <button type='submit' class='btn btn-success'>Submit</button>

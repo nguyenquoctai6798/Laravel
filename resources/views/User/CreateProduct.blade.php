@@ -44,8 +44,9 @@
             Img: <input type = 'file' name = 'myfile' >
             <br/><br/>
             Mô tả:<div class="form-group">
-                <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
-                    placehoder = 'Nhập mô tả' value="{{ old('Description') }}"?>
+                    <textarea  type="text" class="form-control" name="Description" id="" aria-describedby="helpId"
+                    placehoder = 'Nhập mô tả' value="{{ old('Description') }}"> </textarea>
+                
             </div>
             <button type='submit' class='btn btn-success'>Submit</button>
         </form>

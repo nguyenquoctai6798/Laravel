@@ -31,8 +31,8 @@
             </div>
 
             Mô tả:<div class="form-group">
-                <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId" disabled
-                    placehoder = 'Nhập mô tả'  value = "<?php echo $product[0]->Description ?>" ?>
+                    <textarea  type="text" class="form-control" name="Description" id="" aria-describedby="helpId" disabled
+                    placehoder = 'Nhập mô tả'  > <?php echo $product[0]->Description ?> </textarea>
             </div>
 
             <a href = '/test/server.php'><button type='submit' class='btn btn-success'>Back</button></a>
