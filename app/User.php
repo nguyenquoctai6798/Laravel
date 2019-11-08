@@ -12,6 +12,10 @@ class User extends Authenticatable
     protected $table    = 'users';
     protected $fillable =  ['Name', 'Age', 'Email', 'Password', 'role'];
 
+    public function products(){
+        return $this->hasMany('App\Products');
+    }
+
    public static function createAccount($request){
        $account = new User();
        $account->name = $request['name'];
@@ -30,6 +34,7 @@ class User extends Authenticatable
        $account = User::all()->where('email', $Email)->first();
        return $account;
    }
+
 
    public static function conFirm($token){
        $account = User::all()->where('remember_token', $token)->first();

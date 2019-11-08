@@ -13,10 +13,18 @@
 
         public function index()
         {
-            if (Auth::check() && Auth::user()->email_verified_at == 1) {
-                $result = products::getAllProduct();
-                $name = Auth::user()->name;
-                return view('User.HomeView', ['lsProduct' => $result, 'name' => $name]);
+            if (Auth::check() && Auth::user()->email_verified_at == 1 ) {
+                if(Auth::user()->role == 1){
+                    $result = products::getAllProduct();
+                    $name = Auth::user()->name;
+                    return view('User.HomeView', ['lsProduct' => $result, 'name' => $name]);
+                }
+                else if(Auth::user()->role == 0){
+                    $id = Auth::user()->id;
+                    $result = products::getAllProductById($id);
+                    $name = Auth::user()->name;
+                    return view('User.HomeViewById', ['lsProduct' => $result, 'name' => $name]);
+                }
             }
             else{
                 return redirect('/Login');
@@ -36,7 +44,12 @@
         public function editProduct($id){
             if (Auth::check() && Auth::user()->email_verified_at == 1) {
                 $product = products::getProductId($id);
-                return view('User.EditProduct', ['product' => $product]);
+                if(($product[0]->user_id == Auth::user()->id) || Auth::user()->role == 1){
+                    return view('User.EditProduct', ['product' => $product]);
+                }
+                else{
+                        return redirect('/')->with('error', 'Bạn không có sản phẩm này');
+                }
             }
             else{
                 return redirect('/Login');
@@ -52,7 +65,9 @@
 
             if ($validator->fails()) {
                 $request->session()->flash('errors', $validator->errors());
-                return redirect()->back();
+                return redirect()->back()->withInput(
+                    $request->except('')
+                );
             }
             $fileName = null;
             $fileRandom = null;
@@ -116,7 +131,9 @@
                 if($validator->fails()){
                     $request->session()->flash('errors', $validator->errors());
                     $input = $request;
-                    return redirect()->back();
+                    return redirect()->back()->withInput(
+                        $request->except('') 
+                    );
                 }
                 if($request->hasFile('myfile')){
                     $file = $request->file('myfile');
@@ -130,7 +147,8 @@
                         $fileName = $file->getClientOriginalName();
                         $fileRandom = str_random(8). '_' .$fileName;
                         $file->move('public/Images',$fileRandom);
-                        products::creteProductPost($request, $fileRandom);
+                        $user_id =  Auth::user()->id;
+                        products::creteProductPost($request, $fileRandom, $user_id);
                         return redirect('/')->with('success', 'Thêm sản phẩm mới thành công!'); 
                     }
                   

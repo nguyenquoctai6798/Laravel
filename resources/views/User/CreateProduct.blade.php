@@ -41,7 +41,7 @@
                 <input type="text" class="form-control" name="Price" id="" aria-describedby="helpId"
                     placehoder = 'Nhập giá' value="{{ old('Price') }}" ?>
             </div>
-            Img: <input type = 'file' name = 'myfile'>
+            Img: <input type = 'file' name = 'myfile' >
             <br/><br/>
             Mô tả:<div class="form-group">
                 <input type="text" class="form-control" name="Description" id="" aria-describedby="helpId"

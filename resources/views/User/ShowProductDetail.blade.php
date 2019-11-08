@@ -18,8 +18,7 @@
     <h1 style='text-align:center'>Show Product Detail</h1>
     <div class='row'>
     <div class='col-sm-4'>
-    
-    <img class="card-img-top" src="public/Images/<?php echo $product[0]->Img?>" alt="Card image cap">
+        <img class="card-img-top" src = "public/Images/<?php echo $product[0]->Img?>" alt="Card image cap">
     </div>
     <div class='col-sm-8'>
     Tên xe: <div class="form-group">

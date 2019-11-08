@@ -77,20 +77,32 @@ class UserController extends Controller
                 $request->except('password')
             );
         }
-        //send mail
-        $data = array('token'=> $request['_token'], 'email' => $request['mail'] );
-        $mail = $request['email'];
-        Mail::send('mail', $data,  function($message) use($mail) {
-           $message->to($mail, 'Tutorials Point')->subject
-              ('Confirm Email');
-           $message->from('taiphotographer6798@gmail.com','Admin');
-        });
-        echo "HTML Email Sent. Check your inbox.";
+
+        //kieemr tra account đã tồn tại trong database
+        $account = User::checkAccount($request->email);
+        if($account != null){
+            // $request->session()->flash('error', 'Email đã được đăng ký');
+            return redirect()->back()->with('error', 'Email đã được đăng ký')->withInput(
+                $request->except('password')
+            );
+        }
+        else{
+                //send mail
+            $data = array('token'=> $request['_token'], 'email' => $request['mail'] );
+            $mail = $request['email'];
+            Mail::send('mail', $data,  function($message) use($mail) {
+            $message->to($mail, 'Tutorials Point')->subject
+                ('Confirm Email');
+            $message->from('taiphotographer6798@gmail.com','Admin');
+            });
+            echo "HTML Email Sent. Check your inbox.";
 
 
-        //   //lưu xuống database
-            User::createAccount($request);
-            return redirect('/Login')->with('success', 'Bạn đã tạo tài khoản thành công, Vui lòng check mail để xác thực');
+            //   //lưu xuống database
+                User::createAccount($request);
+                return redirect('/Login')->with('success', 'Bạn đã tạo tài khoản thành công, Vui lòng check mail để xác thực');
+            }
+        
 }
 
     public function logOut(Request $request){
@@ -106,5 +118,10 @@ class UserController extends Controller
         else{
             return redirect('/Login')->with('success', 'Xác thực thành công. Vui lòng đăng nhập');
         }
+    }
+
+    public function showProductById($id){
+        $user = User::find($id);
+       dd($user->products);
     }
 }
